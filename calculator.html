@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Calculator</title>
+</head>
+<body>
+  <style>
+    body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #74ebd5, #9face6);
+}
+
+h2{
+    color: #2c3e50;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px #ffffff;
+    border: 80px;
+}
+.calculator {
+  background: #2c3e50;
+  padding: 20px;
+  border-radius: 20px;
+  width: 400px;
+  box-shadow: 0 0 0 5px #ffffff, 0 15px 25px rgba(0, 0, 0, 0.3);
+}
+
+#display {
+  width: 94%;
+  height: 60px;
+  font-size: 2em;
+  text-align: right;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+ background: #ecf0f1;
+  color: #2c3e50;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 92px);
+  gap: 10px;
+}
+
+button {
+  height: 60px;
+  font-size: 1.5em;
+  border: none;
+  border-radius: 20px;
+  background: #34495e;
+  color: #ecf0f1;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, transform 0.1s;
+    box-shadow: 0 0 0 1px #ffffff, 0 15px 25px rgba(0, 0, 0, 0.3);
+
+}
+
+button:hover {
+background: #3d5a73;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+</style>
+<h2><i>Math at your fingertips!</i></h2>
+
+  <div class="calculator">
+
+    <input type="text" id="display" placeholder="0"  disabled />
+    <div class="buttons">
+      <button onclick="clearDisplay()">AC</button>
+      <button onclick="deleteLast()">⌫</button>
+      <button onclick="toggleSign()">+/-</button>
+      <button onclick="appendToDisplay('/')">/</button>
+     
+      <button onclick="appendToDisplay('7')">7</button>
+      <button onclick="appendToDisplay('8')">8</button>
+      <button onclick="appendToDisplay('9')">9</button>
+      <button onclick="appendToDisplay('*')">x</button>
+
+      <button onclick="appendToDisplay('4')">4</button>
+      <button onclick="appendToDisplay('5')">5</button>
+      <button onclick="appendToDisplay('6')">6</button>
+      <button onclick="appendToDisplay('-')">-</button>
+
+      <button onclick="appendToDisplay('1')">1</button>
+      <button onclick="appendToDisplay('2')">2</button>
+      <button onclick="appendToDisplay('3')">3</button>
+      <button onclick="appendToDisplay('+')">+</button>
+
+      <button onclick="appendToDisplay('%')">%</button>
+      <button onclick="appendToDisplay('0')">0</button>
+      <button onclick="appendToDisplay('.')">.</button>
+      <button onclick="calculateResult('=')">=</button>
+    </div>
+  </div>
+  <script>
+    function appendToDisplay(value) {
+  const display = document.getElementById('display');
+  display.value += value;
+}
+
+function clearDisplay() {
+  document.getElementById('display').value = '';
+}
+
+function calculateResult() {
+  const display = document.getElementById('display');
+  try {
+    display.value = eval(display.value);
+  } catch {
+    display.value = 'Error';
+  }
+}
+  function deleteLast() {
+  const display = document.getElementById('display');
+  display.value = display.value.slice(0, -1);
+}
+
+function toggleSign() {
+  const display = document.getElementById('display');
+  let value = display.value;
+  if (!/[+\-*/]/.test(value)) {
+    if (value.charAt(0) === '-') {
+      display.value = value.slice(1);
+    } else if (value !== '') {
+      display.value = '-' + value;
+    }
+    return;
+  }
+
+  const match = value.match(/(-?\d+\.?\d*)$/);
+  if (match) {
+    const number = match[0];
+    const start = value.lastIndexOf(number);
+    const toggled = number.startsWith('-') ? number.slice(1) : '-' + number;
+    display.value = value.slice(0, start) + toggled;
+  }
+}
+  </script>
+</body>
+</html>
