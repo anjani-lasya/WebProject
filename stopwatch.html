@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stopwatch</title>
+  <style>
+    body {
+    font-style: italic;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #c11ea6, #135b5f);
+    }
+
+    .container {
+      background: linear-gradient(135deg, #986998, #c34ec3);
+      text-align: center;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    #display {
+      font-size: 48px;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .buttons button {
+      font-size: 18px;
+      margin: 5px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color:rgb(12, 12, 12);
+      color: white;
+      transition: 0.3s;
+    }
+
+    .buttons button:hover {
+      background-color: #191b1d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Stopwatch</h1>
+    <div id="display">00:00:00</div>
+    <div class="buttons">
+      <button id="start">Start</button>
+      <button id="pause">Pause</button>
+      <button id="reset">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    let [hours, minutes, seconds] = [0, 0, 0];
+    let timer = null;
+    const display = document.getElementById("display");
+
+    function updateDisplay() {
+      let h = hours < 10 ? "0" + hours : hours;
+      let m = minutes < 10 ? "0" + minutes : minutes;
+      let s = seconds < 10 ? "0" + seconds : seconds;
+      display.innerText = `${h}:${m}:${s}`;
+    }
+
+    function stopwatch() {
+      seconds++;
+      if (seconds === 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes === 60) {
+          minutes = 0;
+          hours++;
+        }
+      }
+      updateDisplay();
+    }
+
+    document.getElementById("start").addEventListener("click", () => {
+      if (timer !== null) return;
+      timer = setInterval(stopwatch, 1000);
+    });
+
+    document.getElementById("pause").addEventListener("click", () => {
+      clearInterval(timer);
+      timer = null;
+    });
+
+    document.getElementById("reset").addEventListener("click", () => {
+      clearInterval(timer);
+      [hours, minutes, seconds] = [0, 0, 0];
+      updateDisplay();
+      timer = null;
+    });
+  </script>
+</body>
+</html>
